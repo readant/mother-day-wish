@@ -15,18 +15,41 @@
             min-height: 100vh;
             background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ffecd2 100%);
             overflow: hidden;
-            font-family: 'Noto Serif SC', 'STSong', serif;
+            font-family: 'STKaiti', 'KaiTi', 'Microsoft YaHei', sans-serif;
+        }
+
+        /* 装饰点 */
+        .decorations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .decoration-dot {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 182, 193, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
         }
 
         /* 蝴蝶结容器 */
         .bow-container {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            cursor: pointer;
             z-index: 100;
-            transition: opacity 0.5s ease;
+            cursor: pointer;
+            transition: opacity 0.8s ease, z-index 0.8s;
         }
 
         .bow-container.fade-out {
@@ -35,120 +58,89 @@
             z-index: 1;
         }
 
-        /* 蝴蝶结主体 */
+        /* 蝴蝶结样式 */
         .bow {
             position: relative;
-            width: 200px;
-            height: 150px;
-            animation: bowFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes bowFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* 蝴蝶结丝带 */
-        .bow-ribbon {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 180px;
+            height: 130px;
         }
 
         .bow-left, .bow-right {
             position: absolute;
-            width: 80px;
-            height: 100px;
-            background: linear-gradient(145deg, #ff6b9d, #c44569);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            box-shadow: 
-                inset 0 2px 10px rgba(255,255,255,0.4),
-                inset 0 -5px 15px rgba(0,0,0,0.2),
-                0 10px 30px rgba(196, 69, 105, 0.4);
-            transition: transform 0.3s ease;
+            width: 72px;
+            height: 90px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #a83279 100%);
+            border-radius: 50% 50% 50% 50%;
+            top: 0;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2), 5px 5px 20px rgba(0,0,0,0.15);
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .bow-left {
             left: 0;
-            top: 20px;
-            transform: rotate(-30deg);
+            transform: rotate(-45deg);
+            transform-origin: right center;
         }
 
         .bow-right {
             right: 0;
-            top: 20px;
-            transform: rotate(30deg);
+            transform: rotate(45deg);
+            transform-origin: left center;
         }
 
         .bow-center {
             position: absolute;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(145deg, #ff8fab, #ff6b9d);
-            border-radius: 50%;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 
-                inset 0 3px 10px rgba(255,255,255,0.5),
-                inset 0 -3px 8px rgba(0,0,0,0.2),
-                0 5px 20px rgba(196, 69, 105, 0.5);
-        }
-
-        .bow-center::before {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(145deg, #ffb3c6, #ff8fab);
+            width: 54px;
+            height: 54px;
+            background: linear-gradient(135deg, #ff8fab 0%, #ff6b9d 50%, #c44569 100%);
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            box-shadow: inset -3px -3px 10px rgba(0,0,0,0.2), 3px 3px 15px rgba(0,0,0,0.15);
+            z-index: 2;
         }
 
         .bow-knot {
             position: absolute;
             width: 100%;
-            height: 30px;
-            background: linear-gradient(180deg, #ff6b9d, #c44569);
-            top: 40%;
-            border-radius: 15px;
-            box-shadow: 0 3px 10px rgba(196, 69, 105, 0.4);
+            height: 28px;
+            background: linear-gradient(180deg, #ff6b9d 0%, #a83279 100%);
+            top: 45%;
+            left: 0;
+            border-radius: 0 0 14px 14px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .bow-container:hover .bow-left {
+            transform: rotate(-55deg);
+        }
+
+        .bow-container:hover .bow-right {
+            transform: rotate(55deg);
         }
 
         /* 蝴蝶结打开动画 */
-        .bow-container.open .bow-left {
-            animation: bowOpenLeft 0.8s ease forwards;
+        .bow-container.opening .bow-left {
+            transform: rotate(-90deg) translateX(-20px);
         }
 
-        .bow-container.open .bow-right {
-            animation: bowOpenRight 0.8s ease forwards;
-        }
-
-        @keyframes bowOpenLeft {
-            0% { transform: rotate(-30deg); }
-            100% { transform: rotate(-70deg) translateX(-30px); }
-        }
-
-        @keyframes bowOpenRight {
-            0% { transform: rotate(30deg); }
-            100% { transform: rotate(70deg) translateX(30px); }
+        .bow-container.opening .bow-right {
+            transform: rotate(90deg) translateX(20px);
         }
 
         /* 提示文字 */
         .hint-text {
-            position: absolute;
-            top: 70%;
+            position: fixed;
+            top: 62%;
             left: 50%;
             transform: translateX(-50%);
-            color: #c44569;
             font-size: 18px;
-            opacity: 0;
-            animation: fadeInUp 1s ease 1s forwards;
-            white-space: nowrap;
-            z-index: 110;
-            transition: opacity 0.5s ease;
+            color: #c44569;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            z-index: 99;
+            transition: all 0.8s ease;
         }
 
         .hint-text.hide {
@@ -158,35 +150,19 @@
             display: none;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        /* 心形SVG容器 */
+        /* 心形容器 */
         .heart-container {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
+            transform: translate(-50%, -50%);
             z-index: 50;
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
         .heart-container.show {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .heart-container.grow {
-            animation: heartGrow 2s ease-out forwards;
         }
 
         .heart-container.hide {
@@ -194,32 +170,27 @@
             pointer-events: none;
         }
 
-        @keyframes heartGrow {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(50); opacity: 0; }
-        }
-
-        /* 手绘心形SVG */
         .heart-svg {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
+            filter: drop-shadow(3px 3px 10px rgba(255, 107, 157, 0.4));
         }
 
         .heart-path {
+            fill: none;
             stroke: #ff6b9d;
             stroke-width: 3;
-            fill: none;
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-dasharray: 400;
-            stroke-dashoffset: 400;
-            animation: drawHeart 2s ease forwards;
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            animation: drawHeart 2s ease-in-out forwards;
         }
 
         .heart-fill {
-            fill: none;
-            animation: fillHeart 1s ease 1.5s forwards;
+            fill: url(#heartGradient);
+            opacity: 0;
+            animation: fillHeart 0.8s ease-in-out 1.8s forwards;
         }
 
         @keyframes drawHeart {
@@ -227,7 +198,7 @@
         }
 
         @keyframes fillHeart {
-            to { fill: url(#heartGradient); }
+            to { opacity: 1; }
         }
 
         /* 心形跳动动画 */
@@ -237,10 +208,21 @@
 
         @keyframes heartBounce {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -55%) scale(1.1); }
+            50% { transform: translate(-50%, -55%) scale(1.05); }
         }
 
-        /* 飘落的心形粒子 */
+        /* 心形放大动画 */
+        .heart-container.grow {
+            animation: heartGrow 2s ease-out forwards;
+        }
+
+        @keyframes heartGrow {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(50); opacity: 0; }
+        }
+
+        /* 飘落的心形 */
         .floating-hearts {
             position: fixed;
             top: 0;
@@ -248,13 +230,13 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 40;
+            z-index: 30;
             overflow: hidden;
         }
 
         .floating-heart {
             position: absolute;
-            animation: floatDown linear infinite;
+            animation: floatDown 6s ease-in-out infinite;
         }
 
         @keyframes floatDown {
@@ -263,100 +245,59 @@
                 opacity: 1;
             }
             100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.3;
             }
         }
 
         /* 康乃馨容器 */
         .carnation-container {
-            position: absolute;
-            top: 30%;
+            position: fixed;
+            top: 25%;
             left: 50%;
-            transform: translateX(-50%) translateY(-50px);
+            transform: translateX(-50%);
             opacity: 0;
-            z-index: 30;
-            transition: all 1s ease;
+            z-index: 20;
+            transition: opacity 1.5s ease;
         }
 
         .carnation-container.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
         }
 
-        /* 康乃馨SVG */
         .carnation-svg {
-            width: 280px;
-            height: 350px;
-            filter: drop-shadow(0 5px 15px rgba(196, 69, 105, 0.3));
+            width: 300px;
+            height: 380px;
+            filter: drop-shadow(5px 5px 15px rgba(0,0,0,0.15));
         }
 
         /* 祝福语容器 */
         .messages-container {
-            position: absolute;
+            position: fixed;
             bottom: 15%;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
-            z-index: 20;
+            z-index: 25;
         }
 
         .message-item {
-            opacity: 0;
-            transform: translateY(30px);
-            margin: 15px 0;
             font-size: 20px;
-            color: #8b4557;
-            text-shadow: 0 2px 10px rgba(255, 107, 157, 0.3);
+            color: #8B4513;
+            margin: 15px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
         }
 
         .message-item.show {
-            animation: messageFadeIn 1s ease forwards;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
         }
 
-        @keyframes messageFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* 最后一句祝福语特殊样式 */
-        .message-item:last-child {
-            font-size: 24px;
-            font-weight: bold;
-            color: #c44569;
-        }
-
-        /* 装饰性元素 */
-        .decorations {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .decoration-dot {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 107, 157, 0.3);
-            border-radius: 50%;
-        }
-
-        /* 移动端适配 */
-        @media screen and (max-width: 768px) {
-            * {
-                -webkit-tap-highlight-color: transparent;
-            }
-
+        /* 响应式设计 */
+        @media (max-width: 768px) {
             .bow {
                 width: 140px;
                 height: 105px;
@@ -392,27 +333,13 @@
                 height: 225px;
             }
 
-            .carnation-container {
-                top: 25%;
-            }
-
-            .messages-container {
-                bottom: 8%;
-                width: 90%;
-                padding: 0 10px;
-            }
-
             .message-item {
                 font-size: 14px;
-                margin: 10px 0;
-            }
-
-            .message-item:last-child {
-                font-size: 16px;
+                margin: 12px 0;
             }
         }
 
-        @media screen and (max-width: 480px) {
+        @media (max-width: 480px) {
             .bow {
                 width: 120px;
                 height: 90px;
@@ -430,11 +357,12 @@
 
             .bow-knot {
                 height: 18px;
+                top: 40%;
             }
 
             .hint-text {
                 font-size: 12px;
-                top: 62%;
+                top: 68%;
             }
 
             .heart-svg {
@@ -447,155 +375,132 @@
                 height: 175px;
             }
 
-            .carnation-container {
-                top: 22%;
+            .message-item {
+                font-size: 13px;
+                margin: 10px 0;
             }
 
             .messages-container {
-                bottom: 5%;
-            }
-
-            .message-item {
-                font-size: 13px;
-                margin: 8px 0;
-            }
-
-            .message-item:last-child {
-                font-size: 15px;
+                bottom: 10%;
             }
         }
 
-        @media screen and (max-height: 600px) {
+        @media (max-height: 600px) {
             .carnation-container {
-                top: 20%;
-            }
-
-            .carnation-svg {
-                width: 140px;
-                height: 175px;
+                top: 15%;
             }
 
             .messages-container {
-                bottom: 5%;
+                bottom: 8%;
             }
 
             .message-item {
-                font-size: 13px;
-                margin: 6px 0;
+                margin: 8px 0;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 装饰背景 -->
+    <!-- 装饰点 -->
     <div class="decorations" id="decorations"></div>
 
-    <!-- 蝴蝶结启动画面 -->
+    <!-- 蝴蝶结 -->
     <div class="bow-container" id="bowContainer">
         <div class="bow">
-            <div class="bow-ribbon">
-                <div class="bow-left"></div>
-                <div class="bow-right"></div>
-                <div class="bow-knot"></div>
-                <div class="bow-center"></div>
-            </div>
+            <div class="bow-left"></div>
+            <div class="bow-right"></div>
+            <div class="bow-center"></div>
+            <div class="bow-knot"></div>
         </div>
     </div>
+
+    <!-- 提示文字 -->
     <div class="hint-text" id="hintText">点击蝴蝶结开启祝福</div>
 
-    <!-- 心形SVG -->
+    <!-- 心形 -->
     <div class="heart-container" id="heartContainer">
         <svg class="heart-svg" viewBox="0 0 100 100">
             <defs>
                 <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#ff8fab;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#ff6b9d;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#ff6b9d;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#c44569;stop-opacity:1" />
                 </linearGradient>
             </defs>
-            <path class="heart-path heart-fill" 
-                  d="M50 85 C25 70 10 50 10 30 C10 15 22 5 35 12 C45 17 50 25 50 30 C50 25 55 17 65 12 C78 5 90 15 90 30 C90 50 75 70 50 85 Z" />
+            <path class="heart-path" d="M50 85 C25 70 10 50 10 30 C10 15 22 5 35 12 C45 17 50 25 50 30 C50 25 55 17 65 12 C78 5 90 15 90 30 C90 50 75 70 50 85 Z" />
+            <path class="heart-fill" d="M50 85 C25 70 10 50 10 30 C10 15 22 5 35 12 C45 17 50 25 50 30 C50 25 55 17 65 12 C78 5 90 15 90 30 C90 50 75 70 50 85 Z" />
         </svg>
     </div>
 
-    <!-- 飘落的心形粒子 -->
+    <!-- 飘落的心形容器 -->
     <div class="floating-hearts" id="floatingHearts"></div>
 
     <!-- 康乃馨 -->
     <div class="carnation-container" id="carnationContainer">
-        <svg class="carnation-svg" viewBox="0 0 100 140">
+        <svg class="carnation-svg" viewBox="0 0 100 120">
             <defs>
                 <linearGradient id="petalGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#fff0f5;stop-opacity:1" />
-                    <stop offset="30%" style="stop-color:#ffb6c1;stop-opacity:1" />
-                    <stop offset="70%" style="stop-color:#ff69b4;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#db7093;stop-opacity:1" />
+                    <stop offset="0%" style="stop-color:#ffb6c1;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff69b4;stop-opacity:1" />
                 </linearGradient>
                 <linearGradient id="petalGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#ffc0cb;stop-opacity:1" />
-                    <stop offset="50%" style="stop-color:#ff69b4;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#c44569;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff8fab;stop-opacity:1" />
                 </linearGradient>
                 <linearGradient id="petalGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#ffe4e9;stop-opacity:1" />
-                    <stop offset="50%" style="stop-color:#ff8fab;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#e75480;stop-opacity:1" />
-                </linearGradient>
-                <linearGradient id="stemGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#8bc34a;stop-opacity:1" />
-                    <stop offset="50%" style="stop-color:#689f38;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#558b2f;stop-opacity:1" />
+                    <stop offset="0%" style="stop-color:#ffd1dc;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ffb6c1;stop-opacity:1" />
                 </linearGradient>
                 <radialGradient id="centerGradient" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" style="stop-color:#fffacd;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#ffd700;stop-opacity:1" />
+                    <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#daa520;stop-opacity:1" />
                 </radialGradient>
+                <linearGradient id="stemGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#228b22;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#32cd32;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#228b22;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#3cb371;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#2e8b57;stop-opacity:1" />
+                </linearGradient>
             </defs>
-            
+
             <!-- 花茎 -->
-            <path d="M50 75 Q48 95 50 115 Q52 125 50 138" stroke="url(#stemGradient)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-            
-            <!-- 左侧大叶子 -->
-            <path d="M49 90 Q30 85 25 95 Q30 100 35 97 Q42 93 49 95" fill="#7cb342" opacity="0.9"/>
-            <path d="M49 90 Q30 85 25 95 Q30 100 35 97 Q42 93 49 95" fill="url(#stemGradient)" opacity="0.6"/>
-            
-            <!-- 右侧大叶子 -->
-            <path d="M51 100 Q70 95 75 105 Q70 110 65 107 Q58 103 51 105" fill="#7cb342" opacity="0.9"/>
-            <path d="M51 100 Q70 95 75 105 Q70 110 65 107 Q58 103 51 105" fill="url(#stemGradient)" opacity="0.6"/>
-            
+            <path d="M50 70 Q48 85 50 100 Q52 110 50 120" stroke="url(#stemGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+            <!-- 叶子 -->
+            <path d="M48 75 Q35 80 30 70 Q40 65 48 75" fill="url(#leafGradient)" opacity="0.9"/>
+            <path d="M52 85 Q65 90 70 80 Q60 75 52 85" fill="url(#leafGradient)" opacity="0.85"/>
+            <path d="M47 95 Q35 100 32 92 Q42 88 47 95" fill="url(#leafGradient)" opacity="0.8"/>
+
             <!-- 花萼 -->
-            <path d="M42 70 L50 60 L58 70" fill="#558b2f" opacity="0.8"/>
-            
-            <!-- 最外层花瓣 - 较大且卷曲 -->
-            <ellipse cx="50" cy="28" rx="22" ry="26" fill="url(#petalGradient1)" opacity="0.95"/>
-            <ellipse cx="30" cy="35" rx="20" ry="24" fill="url(#petalGradient1)" opacity="0.9" transform="rotate(-35 30 35)"/>
-            <ellipse cx="70" cy="35" rx="20" ry="24" fill="url(#petalGradient1)" opacity="0.9" transform="rotate(35 70 35)"/>
-            <ellipse cx="28" cy="48" rx="18" ry="22" fill="url(#petalGradient1)" opacity="0.85" transform="rotate(-55 28 48)"/>
-            <ellipse cx="72" cy="48" rx="18" ry="22" fill="url(#petalGradient1)" opacity="0.85" transform="rotate(55 72 48)"/>
-            
-            <!-- 第二层花瓣 -->
-            <ellipse cx="50" cy="32" rx="20" ry="24" fill="url(#petalGradient2)" opacity="0.95"/>
-            <ellipse cx="35" cy="40" rx="18" ry="22" fill="url(#petalGradient2)" opacity="0.9" transform="rotate(-30 35 40)"/>
-            <ellipse cx="65" cy="40" rx="18" ry="22" fill="url(#petalGradient2)" opacity="0.9" transform="rotate(30 65 40)"/>
-            <ellipse cx="32" cy="52" rx="16" ry="20" fill="url(#petalGradient2)" opacity="0.85" transform="rotate(-50 32 52)"/>
-            <ellipse cx="68" cy="52" rx="16" ry="20" fill="url(#petalGradient2)" opacity="0.85" transform="rotate(50 68 52)"/>
-            
-            <!-- 第三层花瓣 -->
-            <ellipse cx="50" cy="40" rx="18" ry="22" fill="url(#petalGradient3)" opacity="0.95"/>
-            <ellipse cx="38" cy="46" rx="16" ry="19" fill="url(#petalGradient3)" opacity="0.9" transform="rotate(-25 38 46)"/>
-            <ellipse cx="62" cy="46" rx="16" ry="19" fill="url(#petalGradient3)" opacity="0.9" transform="rotate(25 62 46)"/>
-            <ellipse cx="35" cy="56" rx="14" ry="17" fill="url(#petalGradient3)" opacity="0.85" transform="rotate(-45 35 56)"/>
-            <ellipse cx="65" cy="56" rx="14" ry="17" fill="url(#petalGradient3)" opacity="0.85" transform="rotate(45 65 56)"/>
-            
-            <!-- 最内层花瓣 -->
-            <ellipse cx="50" cy="48" rx="15" ry="18" fill="url(#petalGradient2)" opacity="0.9"/>
-            <ellipse cx="42" cy="52" rx="12" ry="15" fill="url(#petalGradient2)" opacity="0.85" transform="rotate(-20 42 52)"/>
-            <ellipse cx="58" cy="52" rx="12" ry="15" fill="url(#petalGradient2)" opacity="0.85" transform="rotate(20 58 52)"/>
-            
+            <polygon points="45,68 50,72 55,68" fill="#228b22"/>
+
+            <!-- 外层花瓣 -->
+            <ellipse cx="50" cy="40" rx="20" ry="22" fill="url(#petalGradient1)" opacity="0.95"/>
+            <ellipse cx="35" cy="45" rx="16" ry="18" fill="url(#petalGradient1)" opacity="0.9" transform="rotate(-30 35 45)"/>
+            <ellipse cx="65" cy="45" rx="16" ry="18" fill="url(#petalGradient1)" opacity="0.9" transform="rotate(30 65 45)"/>
+            <ellipse cx="38" cy="32" rx="14" ry="16" fill="url(#petalGradient1)" opacity="0.85" transform="rotate(-50 38 32)"/>
+            <ellipse cx="62" cy="32" rx="14" ry="16" fill="url(#petalGradient1)" opacity="0.85" transform="rotate(50 62 32)"/>
+
+            <!-- 中层花瓣 -->
+            <ellipse cx="50" cy="45" rx="18" ry="20" fill="url(#petalGradient2)" opacity="0.92"/>
+            <ellipse cx="40" cy="48" rx="14" ry="16" fill="url(#petalGradient2)" opacity="0.88" transform="rotate(-25 40 48)"/>
+            <ellipse cx="60" cy="48" rx="14" ry="16" fill="url(#petalGradient2)" opacity="0.88" transform="rotate(25 60 48)"/>
+            <ellipse cx="44" cy="38" rx="12" ry="14" fill="url(#petalGradient2)" opacity="0.83" transform="rotate(-40 44 38)"/>
+            <ellipse cx="56" cy="38" rx="12" ry="14" fill="url(#petalGradient2)" opacity="0.83" transform="rotate(40 56 38)"/>
+
+            <!-- 内层花瓣 -->
+            <ellipse cx="50" cy="48" rx="15" ry="18" fill="url(#petalGradient3)" opacity="0.9"/>
+            <ellipse cx="42" cy="52" rx="12" ry="15" fill="url(#petalGradient3)" opacity="0.85" transform="rotate(-20 42 52)"/>
+            <ellipse cx="58" cy="52" rx="12" ry="15" fill="url(#petalGradient3)" opacity="0.85" transform="rotate(20 58 52)"/>
+
             <!-- 花蕊层 -->
             <ellipse cx="50" cy="54" rx="12" ry="14" fill="url(#petalGradient3)" opacity="0.9"/>
             <ellipse cx="46" cy="56" rx="9" ry="11" fill="url(#petalGradient3)" opacity="0.85" transform="rotate(-15 46 56)"/>
             <ellipse cx="54" cy="56" rx="9" ry="11" fill="url(#petalGradient3)" opacity="0.85" transform="rotate(15 54 56)"/>
-            
+
             <!-- 花心 -->
             <circle cx="50" cy="58" r="10" fill="url(#centerGradient)"/>
             <circle cx="47" cy="55" r="3" fill="#fff8dc" opacity="0.8"/>
@@ -603,7 +508,7 @@
             <circle cx="50" cy="60" r="2" fill="#fff8dc" opacity="0.6"/>
             <circle cx="45" cy="59" r="1.5" fill="#fff8dc" opacity="0.5"/>
             <circle cx="55" cy="59" r="1.5" fill="#fff8dc" opacity="0.5"/>
-            
+
             <!-- 花蕊丝 -->
             <circle cx="48" cy="53" r="1" fill="#ffd700"/>
             <circle cx="52" cy="53" r="1" fill="#ffd700"/>
@@ -620,6 +525,11 @@
         <div class="message-item">祝您不仅母亲节快乐，每天都快乐❤</div>
     </div>
 
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" loop volume="0.3">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    
+
     <script>
         // DOM元素
         const bowContainer = document.getElementById('bowContainer');
@@ -629,6 +539,7 @@
         const messagesContainer = document.getElementById('messagesContainer');
         const decorations = document.getElementById('decorations');
         const hintText = document.getElementById('hintText');
+        const bgMusic = document.getElementById('bgMusic');
 
         // 初始化装饰点
         function initDecorations() {
@@ -662,80 +573,70 @@
             heart.style.animationDelay = Math.random() * 2 + 's';
             
             floatingHearts.appendChild(heart);
-            
-            // 动画结束后移除
-            setTimeout(() => {
-                heart.remove();
-            }, parseFloat(heart.style.animationDuration) * 1000 + parseFloat(heart.style.animationDelay) * 1000);
         }
 
         // 获取随机颜色
         function getRandomColor() {
-            const colors = ['#ff6b9d', '#ff8fab', '#ffcdd2', '#f48fb1', '#e91e63', '#ff4081', '#ffc107', '#ffeb3b'];
+            const colors = ['#ff6b9d', '#ff8fab', '#ffc0cb', '#ffb6c1', '#ff69b4', '#ff1493', '#c44569', '#a83279'];
             return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        // 开始飘落动画
-        function startFloatingHearts() {
-            // 创建初始心形
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => createFloatingHeart(), i * 200);
-            }
-            
-            // 持续创建新的心形
-            setInterval(createFloatingHeart, 500);
         }
 
         // 显示祝福语
         function showMessages() {
             const messages = messagesContainer.querySelectorAll('.message-item');
-            messages.forEach((msg, index) => {
+            messages.forEach((message, index) => {
                 setTimeout(() => {
-                    msg.classList.add('show');
+                    message.classList.add('show');
                 }, index * 800);
             });
         }
 
-        // 蝴蝶结点击处理
+        // 蝴蝶结点击事件
         bowContainer.addEventListener('click', () => {
-            // 蝴蝶结打开动画
-            bowContainer.classList.add('open');
+            // 播放背景音乐
+            bgMusic.play().catch(() => {
+                // 如果自动播放失败，提示用户点击播放
+            });
             
             // 隐藏提示文字
             hintText.classList.add('hide');
             
-            // 延迟后隐藏蝴蝶结
+            // 蝴蝶结打开动画
+            bowContainer.classList.add('opening');
+            
             setTimeout(() => {
                 bowContainer.classList.add('fade-out');
                 
-                // 显示心形
+                // 显示心形并开始绘制动画
+                heartContainer.classList.add('show');
+                
+                // 绘制完成后开始跳动
                 setTimeout(() => {
-                    heartContainer.classList.add('show');
+                    heartContainer.classList.add('bounce');
                     
-                    // 心形绘制完成后开始跳动
+                    // 跳动一段时间后开始放大
                     setTimeout(() => {
-                        heartContainer.classList.add('bounce');
+                        heartContainer.classList.remove('bounce');
+                        heartContainer.classList.add('grow');
                         
-                        // 跳动一段时间后开始放大
+                        // 心形放大完成后显示康乃馨和飘落的心形
                         setTimeout(() => {
-                            heartContainer.classList.remove('bounce');
-                            heartContainer.classList.add('grow');
+                            heartContainer.classList.add('hide');
                             
-                            // 放大完成后开始飘落心形和显示康乃馨
+                            // 开始飘落心形粒子
+                            setInterval(createFloatingHeart, 500);
+                            
+                            // 显示康乃馨
                             setTimeout(() => {
-                                heartContainer.classList.add('hide');
-                                startFloatingHearts();
                                 carnationContainer.classList.add('show');
                                 
-                                // 康乃馨显示后显示祝福语
-                                setTimeout(() => {
-                                    showMessages();
-                                }, 1000);
-                            }, 2000);
+                                // 显示祝福语
+                                setTimeout(showMessages, 1000);
+                            }, 500);
                         }, 2000);
-                    }, 2500);
-                }, 500);
-            }, 800);
+                    }, 2000);
+                }, 2000);
+            }, 600);
         });
 
         // 初始化
